@@ -3,10 +3,11 @@ package inject_tomongo
 import (
 	"context"
 	"fmt"
-	"inject_tomongo/mongodb"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/Natannegara/inject_tomongo/mongodb"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

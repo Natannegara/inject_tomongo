@@ -1,4 +1,4 @@
-module inject_tomongo
+module github.com/Natannegara/inject_tomongo
 
 go 1.22.4
 
