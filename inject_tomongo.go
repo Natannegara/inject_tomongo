@@ -38,16 +38,15 @@ func Controller(data AnyData, command string) interface{} {
 		// } else {
 		// }
 		insertData(ctx, dbCollection, data)
-		return "finish"
+		// return object only
+		return map[string]string{"message": "data added succesfuly"}
 	case "read":
 		result := readData(ctx, dbCollection)
-		return result
-	// for _, res := range result {
-	// 	fmt.Println(res)
-	// }
+		// return list of objects
+		return []interface{}{result}
 	default:
 		fmt.Println("please define your argument")
-		return "finish"
+		return map[string]string{"message": "data added succesfuly"}
 	}
 }
 
