@@ -38,14 +38,16 @@ func Controller(data AnyData, command string) interface{} {
 		// } else {
 		// }
 		insertData(ctx, dbCollection, data)
+		return "finish"
 	case "read":
 		result := readData(ctx, dbCollection)
 		return result
-		// for _, res := range result {
-		// 	fmt.Println(res)
-		// }
+	// for _, res := range result {
+	// 	fmt.Println(res)
+	// }
 	default:
 		fmt.Println("please define your argument")
+		return "finish"
 	}
 }
 
