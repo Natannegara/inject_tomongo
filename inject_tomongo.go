@@ -24,7 +24,7 @@ func CreateId() string {
 	return string(monStr + yearStr)
 }
 
-func Controller(data AnyData, command string) {
+func Controller(data AnyData, command string) interface{} {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -40,9 +40,10 @@ func Controller(data AnyData, command string) {
 		insertData(ctx, dbCollection, data)
 	case "read":
 		result := readData(ctx, dbCollection)
-		for _, res := range result {
-			fmt.Println(res)
-		}
+		return result
+		// for _, res := range result {
+		// 	fmt.Println(res)
+		// }
 	default:
 		fmt.Println("please define your argument")
 	}
