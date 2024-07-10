@@ -32,12 +32,12 @@ func Controller(data AnyData, command string) {
 	dbCollection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
 	switch command {
 	case "add":
-		result := checkDuplicate(ctx, dbCollection, data.GetId())
-		if result != nil {
-			fmt.Println("you have generated data for this month, want to recreate?")
-		} else {
-			insertData(ctx, dbCollection, data)
-		}
+		// result := checkDuplicate(ctx, dbCollection, data.GetId())
+		// if result != nil {
+		// 	fmt.Println("you have generated data for this month, want to recreate?")
+		// } else {
+		// }
+		insertData(ctx, dbCollection, data)
 	case "read":
 		result := readData(ctx, dbCollection)
 		for _, res := range result {
