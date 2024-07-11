@@ -77,7 +77,7 @@ func readData(ctx context.Context, collection *mongo.Collection) []interface{} {
 	return result
 }
 
-func GetAllData() []interface{} {
+func GetAllData(result interface{}) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -89,9 +89,9 @@ func GetAllData() []interface{} {
 		panic(err)
 	}
 
-	var result []interface{}
-	if err = cur.All(ctx, &result); err != nil {
-		panic(err)
+	defer cur.Close(ctx)
+	if err := cur.All(ctx, result); err != nil {
+		return err
 	}
-	return result
+	return nil
 }
