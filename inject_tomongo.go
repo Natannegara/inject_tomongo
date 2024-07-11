@@ -24,7 +24,7 @@ func CreateId() string {
 	return string(monStr + yearStr)
 }
 
-func Controller(data AnyData, command string) interface{} {
+func Controller(data AnyData, command string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -38,19 +38,16 @@ func Controller(data AnyData, command string) interface{} {
 		// } else {
 		// }
 		insertData(ctx, dbCollection, data)
-		// return object only
-		return map[string]string{"message": "data added succesfuly"}
+		fmt.Println("added succesfuly")
 	case "read":
 		result := readData(ctx, dbCollection)
-		// return list of objects
-		return []interface{}{result}
+		fmt.Println(result...)
 	default:
 		fmt.Println("please define your argument")
-		return map[string]string{"message": "data added succesfuly"}
 	}
 }
 
-func checkDuplicate(ctx context.Context, collection *mongo.Collection, id string) interface{} {
+func CheckDuplicate(ctx context.Context, collection *mongo.Collection, id string) interface{} {
 	var result interface{}
 	if err := collection.FindOne(ctx, bson.D{{"id", id}}).Decode(&result); err != nil {
 		fmt.Println(err)
@@ -77,5 +74,24 @@ func readData(ctx context.Context, collection *mongo.Collection) []interface{} {
 		panic(err)
 	}
 	fmt.Println("going to print all datas")
+	return result
+}
+
+func GetAllData() []interface{} {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client := mongodb.Connect()
+	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+
+	cur, err := collection.Find(ctx, bson.D{{}})
+	if err != nil {
+		panic(err)
+	}
+
+	var result []interface{}
+	if err = cur.All(ctx, &result); err != nil {
+		panic(err)
+	}
 	return result
 }

@@ -3,3 +3,4 @@ docker/*/**
 docker
 model/*/**
 model
+main.go
