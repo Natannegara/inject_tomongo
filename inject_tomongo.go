@@ -77,14 +77,18 @@ func readData(ctx context.Context, collection *mongo.Collection) []interface{} {
 	return result
 }
 
-func GetAllData(result interface{}) error {
+func GetAllData(result interface{}, timeFilter string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client := mongodb.Connect()
 	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
 
-	cur, err := collection.Find(ctx, bson.D{{}})
+	if timeFilter == "now" {
+		timeFilter = CreateId()
+	}
+
+	cur, err := collection.Find(ctx, bson.D{{"id", timeFilter}})
 	if err != nil {
 		panic(err)
 	}
