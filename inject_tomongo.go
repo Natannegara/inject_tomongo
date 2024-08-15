@@ -86,22 +86,41 @@ func readData(ctx context.Context, collection *mongo.Collection) []interface{} {
 	return result
 }
 
-func GetAllData(result interface{}, timeFilter string, isTrash bool) error {
+func GetAllData(result interface{}, timeFilter string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client := mongodb.Connect()
 	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
 
-	if isTrash == true {
-		collection = client.Database(os.Getenv("DATABASE")).Collection("trash")
-	}
-
 	if timeFilter == "now" {
 		timeFilter = CreateId()
 	}
 
 	cur, err := collection.Find(ctx, bson.D{{"id", timeFilter}})
+	if err != nil {
+		panic(err)
+	}
+
+	defer cur.Close(ctx)
+	if err := cur.All(ctx, result); err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetTrashData(result interface{}, timeFilter string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client := mongodb.Connect()
+	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+
+	if timeFilter == "now" {
+		timeFilter = CreateId()
+	}
+
+	cur, err := collection.Find(ctx, bson.D{})
 	if err != nil {
 		panic(err)
 	}
