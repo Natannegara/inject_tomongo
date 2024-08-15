@@ -24,21 +24,30 @@ func CreateId() string {
 	return string(monStr + yearStr)
 }
 
-func Controller(data AnyData, command string) {
+func Controller(data AnyData, command string, isTrash string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client := mongodb.Connect()
-	dbCollection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+	var dbCollection *mongo.Collection
+
+	dbCollection = client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+
+	if isTrash == "trash" {
+		dbCollection = client.Database(os.Getenv("DATABASE")).Collection("trash")
+	}
+
 	switch command {
 	case "add":
-		// result := checkDuplicate(ctx, dbCollection, data.GetId())
-		// if result != nil {
-		// 	fmt.Println("you have generated data for this month, want to recreate?")
-		// } else {
-		// }
-		insertData(ctx, dbCollection, data)
-		fmt.Println("added succesfuly")
+		// result := CheckDuplicate(ctx, dbCollection, data.GetId())
+		result := CheckDuplicate(ctx, dbCollection, CreateId())
+		if result != nil {
+			fmt.Println("you have generated data for this month, want to recreate?")
+			break
+		} else {
+			insertData(ctx, dbCollection, data)
+			fmt.Println("added succesfuly")
+		}
 	case "read":
 		result := readData(ctx, dbCollection)
 		fmt.Println(result...)
@@ -98,4 +107,14 @@ func GetAllData(result interface{}, timeFilter string) error {
 		return err
 	}
 	return nil
+}
+
+func DeleteData() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client := mongodb.Connect()
+	collection := client.Database(os.Getenv("DATABASE")).Collection("trash")
+
+	collection.Drop(ctx)
 }
