@@ -24,7 +24,7 @@ func CreateId() string {
 	return string(monStr + yearStr)
 }
 
-func Controller(data AnyData, command string, isTrash string) {
+func Controller(data AnyData, command string, isTrash bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -33,7 +33,7 @@ func Controller(data AnyData, command string, isTrash string) {
 
 	dbCollection = client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
 
-	if isTrash == "trash" {
+	if isTrash == true {
 		dbCollection = client.Database(os.Getenv("DATABASE")).Collection("trash")
 	}
 
@@ -86,12 +86,16 @@ func readData(ctx context.Context, collection *mongo.Collection) []interface{} {
 	return result
 }
 
-func GetAllData(result interface{}, timeFilter string) error {
+func GetAllData(result interface{}, timeFilter string, isTrash bool) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client := mongodb.Connect()
 	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+
+	if isTrash == true {
+		collection = client.Database(os.Getenv("DATABASE")).Collection("trash")
+	}
 
 	if timeFilter == "now" {
 		timeFilter = CreateId()
