@@ -1,4 +1,4 @@
-package inject_tomongo
+package main
 
 import (
 	"context"

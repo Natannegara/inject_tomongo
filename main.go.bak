@@ -1,0 +1,62 @@
+// package main
+
+// import (
+// 	"github.com/Natannegara/inject_tomongo/inject_tomongo"
+// )
+
+// type ResourceData struct {
+// 	Id                        string  `json: "id" bson: "id"`
+// 	Region                    string  `json: "region" bson: "region"`
+// 	Project                   string  `json: "project" bson: "project"`
+// 	Category                  string  `json: "category" bson: "category,omitempty"`
+// 	Resource_Name             string  `json: "resource_name" bson: "resource_name,omitempty"`
+// 	Core_Software             string  `json: "core_sooftware" bson: "core_sooftware,omitempty"`
+// 	Priority                  string  `json: "priority" bson: "priority,omitempty"`
+// 	Priority_Score            float64 `json: "priority_score" bson: "priority_score,omitempty"`
+// 	PIC                       string  `json: "pic" bson: "pic,omitempty"`
+// 	Operation_System          string  `json: "operation_system" bson: "operation_system,omitempty"`
+// 	Status                    string  `json: "status" bson: "status,omitempty"`
+// 	Private_IP                string  `json: "private_ip" bson: "private_ip,omitempty"`
+// 	Public_IP                 string  `json: "public_ip" bson: "public_ip,omitempty"`
+// 	Minimum_task              float64 `json: "minimum_task" bson: "minimum_task,omitempty"`
+// 	Maximum_task              float64 `json: "maximum_task" bson: "maximum_task,omitempty"`
+// 	Average_task              float64 `json: "average_task" bson: "average_task,omitempty"`
+// 	CPU                       int     `json: "cpu" bson: "cpu,omitempty"`
+// 	CPU_Score                 float64 `json: "cpu_score" bson: "cpu_score,omitempty"`
+// 	Average_CPU_Utils         float64 `json: "average_cpu_utils" bson: "average_cpu_utils,omitempty"`
+// 	Max_Average_CPU_Utils     float64 `json: "max_average_cpu_utils" bson: "max_average_cpu_utils,omitempty"`
+// 	Min_Average_CPU_Utils     float64 `json: "min_average_cpu_utils" bson: "min_average_cpu_utils,omitempty"`
+// 	Memory                    int     `json: "memory" bson: "memory,omitempty"`
+// 	Memory_Score              float64 `json: "memory_score" bson: "memory_score,omitempty"`
+// 	Average_Memory_Utils      float64 `json: "average_memory_utils" bson: "average_memory_utils,omitempty"`
+// 	Max_Average_Memory_Utils  float64 `json: "max_average_memory_utils" bson: "max_average_memory_utils,omitempty"`
+// 	Min_Average_Memory_Utils  float64 `json: "min_average_memory_utils" bson: "min_average_memory_utils,omitempty"`
+// 	Average_Disk_Utils        float64 `json: "average_disk_utils" bson: "average_disk_utils,omitempty"`
+// 	Max_Disk_Utils            float64 `json: "max_disk_utils" bson: "max_disk_utils,omitempty"`
+// 	Min_Disk_Utils            float64 `json: "min_disk_utils" bson: "min_disk_utils,omitempty"`
+// 	Disk_Size                 int     `json: "disk_size" bson: "disk_size,omitempty"`
+// 	Average_Data_Disk_Utils   float64 `json: "average_data_disk_utils" bson: "average_data_disk_utils,omitempty"`
+// 	Max_Data_Disk_Utils       float64 `json: "max_data_disk_utils" bson: "max_data_disk_utils,omitempty"`
+// 	Min_Data_Disk_Utils       float64 `json: "min_data_disk_utils" bson: "min_data_disk_utils,omitempty"`
+// 	Data_Disk_Size            int     `json: "data_disk_size" bson: "data_disk_size,omitempty"`
+// 	CPU_Resource_Action       string  `json: "cpu_resource_action" bson: "cpu_resource_action,omitempty"`
+// 	Memory_Resource_Action    string  `json: "memory_resource_action" bson: "memory_resource_action,omitempty"`
+// 	Disk_Resource_Action      string  `json: "disk_resource_action" bson: "disk_resource_action,omitempty"`
+// 	Data_Disk_Resource_Action string  `json: "data_disk_resource_action" bson: "data_disk_resource_action,omitempty"`
+// 	Note_IT                   string  `json: "note_it" bson: "note_it,omitempty"`
+// 	Specs_Adjustment          string  `json: "specs_adjusment" bson: "specs_adjusment,omitempty"`
+// 	Remark_or_Action          string  `json: "remark_or_action" bson: "remark_or_action,omitempty"`
+// 	Temp                      string  `json: "temp" bson: "temp,omitempty"`
+// }
+
+// func (ResourceData) GetId() string {
+// 	return "haha"
+// }
+
+// func main() {
+
+// 	data := ResourceData{Project: "test"}
+// 	inject_tomongo.Controller(data, "add", true)
+// 	// inject_tomongo.DeleteData()
+
+// }
