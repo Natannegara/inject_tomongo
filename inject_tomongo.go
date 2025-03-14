@@ -17,11 +17,16 @@ type AnyData interface {
 	GetId() string
 }
 
-func CreateId() string {
+func TimeFilter() string {
 	year, mon, _ := time.Now().Date()
 	monStr := strconv.Itoa(int(mon))
 	yearStr := strconv.Itoa(year)
 	return string(monStr + yearStr)
+}
+
+func CreateId(name string) string {
+	nameAppend := fmt.Sprintf("%s_%s", TimeFilter(), name)
+	return string(nameAppend)
 }
 
 func Controller(data AnyData, command string, isTrash bool) {
@@ -39,14 +44,13 @@ func Controller(data AnyData, command string, isTrash bool) {
 
 	switch command {
 	case "add":
-		// result := CheckDuplicate(ctx, dbCollection, data.GetId())
-		// result := CheckDuplicate(ctx, dbCollection, CreateId())
-		// if result != nil {
-		// 	fmt.Println("you have generated data for this month, want to recreate?")
-		// 	break
-		// } else {
-		// }
-		insertData(ctx, dbCollection, data)
+		result := CheckDuplicate(ctx, dbCollection, data.GetId())
+		if result != nil {
+			fmt.Println("you have generated data for this month, want to recreate?")
+			break
+		} else {
+			insertData(ctx, dbCollection, data)
+		}
 		fmt.Println("added succesfuly")
 	case "read":
 		result := readData(ctx, dbCollection)
@@ -94,7 +98,7 @@ func GetAllData(result interface{}, timeFilter string) error {
 	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
 
 	if timeFilter == "now" {
-		timeFilter = CreateId()
+		timeFilter = TimeFilter()
 	}
 
 	cur, err := collection.Find(ctx, bson.D{{"id", timeFilter}})
@@ -114,7 +118,8 @@ func GetTrashData(result interface{}) error {
 	defer cancel()
 
 	client := mongodb.Connect()
-	collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+	// collection := client.Database(os.Getenv("DATABASE")).Collection(os.Getenv("COLLECTION"))
+	collection := client.Database(os.Getenv("DATABASE")).Collection("trash")
 
 	cur, err := collection.Find(ctx, bson.D{})
 	if err != nil {
