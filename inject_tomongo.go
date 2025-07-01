@@ -101,7 +101,7 @@ func GetAllData(result interface{}, timeFilter string) error {
 		timeFilter = TimeFilter()
 	}
 
-	cur, err := collection.Find(ctx, bson.D{{"id", timeFilter}})
+	cur, err := collection.Find(ctx, bson.D{{"time_filter", timeFilter}})
 	if err != nil {
 		panic(err)
 	}
