@@ -48,9 +48,8 @@ func Controller(data AnyData, command string, isTrash bool) {
 		if result != nil {
 			fmt.Println("you have generated data for this month, want to recreate?")
 			break
-		} else {
-			insertData(ctx, dbCollection, data)
 		}
+		insertData(ctx, dbCollection, data)
 		fmt.Println("added succesfuly")
 	case "read":
 		result := readData(ctx, dbCollection)
